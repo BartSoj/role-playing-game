@@ -1,0 +1,37 @@
+hand in this backlog Tuesday October 10, 2023 before 23:59 on Canvas
+
+A product backlog is a list of features (backlog items) that your game will contain. The backlog items need
+to be relatively small and self-contained, i.e. a small unit you can work on and finish relatively quickly
+and independently of the other backlog-items. The backlog items need to be sorted by priority from high
+to low and need to contain the following information per item:
+
+Name 
+This should be a succinct descriptor of what your backlog item is about (e.g. “Rendering a chess
+board”).
+
+How to demo 
+How exactly are you going to demonstrate that your backlog item is implemented properly
+(e.g. “Start the application, click the New Game button and 64 white and black square fields show up
+in a checkerboard pattern, resize window, board stays square and properly visible”).
+
+Notes
+Here you can elaborate more on the backlog item and write down which learning goals you want
+to achieve with this backlog item (e.g. “Rendering by painting a JPanel component, dynamically
+resizing board based on window size — learning how to render on swing components, basic pro-
+gramming.”).
+
+Name
+	Renering chat window
+
+How to demo
+	Start the application, click the New Game button and (white/black) window appears and 
+	first message shows up, resize window, text stays easly readable
+
+Notes
+
+Name
+	Implementing connetion with chatGPT
+
+How to demo
+
+Notes
