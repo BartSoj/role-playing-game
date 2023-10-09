@@ -1,6 +1,8 @@
 package example.org;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 public class GuiForm {
     private final AiResponse aiResponse = new AiResponse();
@@ -8,13 +10,24 @@ public class GuiForm {
     private JTextField actionTextField;
     private JButton sendActionButton;
     private JTextArea StoryTextArea;
-    private JTable items;
+    private JTable itemsTable;
 
     private void initUiComponents() {
         sendActionButton.setText("Send");
         StoryTextArea.setEditable(false);
         StoryTextArea.setLineWrap(true);
         StoryTextArea.setWrapStyleWord(true);
+        DefaultTableModel model = new DefaultTableModel();
+        itemsTable.setModel(model);
+        model.addColumn("items");
+    }
+
+    private void updateTable() {
+        DefaultTableModel model = (DefaultTableModel) itemsTable.getModel();
+        List<String> items = aiResponse.getItemsList();
+        for (int i = model.getRowCount(); i < items.size(); i++) {
+            model.addRow(new Object[]{items.get(i)});
+        }
     }
 
     public GuiForm() {
@@ -26,6 +39,7 @@ public class GuiForm {
             actionTextField.setText("");
             String response = aiResponse.getResponse(action);
             StoryTextArea.append(response + "\n");
+            updateTable();
         });
     }
 
