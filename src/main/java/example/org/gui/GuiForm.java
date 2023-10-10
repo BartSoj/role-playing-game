@@ -1,18 +1,23 @@
-package example.org;
+package example.org.gui;
+
+import example.org.service.GameStatusService;
+import example.org.dto.GameStatus;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public class GuiForm {
-    private final AiResponse aiResponse = new AiResponse();
+    private final GameStatusService gameStatusService = new GameStatusService();
     private JPanel panelMain;
     private JTextField actionTextField;
     private JButton sendActionButton;
     private JTextArea StoryTextArea;
     private JTable itemsTable;
+    private JLabel statusLabel;
+    private GameStatus gameStatus;
 
-    private void initUiComponents() {
+    private void init() {
         sendActionButton.setText("Send");
         StoryTextArea.setEditable(false);
         StoryTextArea.setLineWrap(true);
@@ -20,26 +25,32 @@ public class GuiForm {
         DefaultTableModel model = new DefaultTableModel();
         itemsTable.setModel(model);
         model.addColumn("items");
+        gameStatus = gameStatusService.getNewGameStatus();
     }
 
-    private void updateTable() {
+    private void updateTable(List<String> items) {
         DefaultTableModel model = (DefaultTableModel) itemsTable.getModel();
-        List<String> items = aiResponse.getItemsList();
         for (int i = model.getRowCount(); i < items.size(); i++) {
             model.addRow(new Object[]{items.get(i)});
         }
     }
 
+    private void updateUi() {
+        StoryTextArea.append(gameStatus.getMessages().get(gameStatus.getMessages().size() - 1) + "\n");
+        updateTable(gameStatus.getInventory());
+        statusLabel.setText("     Round: " + gameStatus.getRound() + "     Time: " + gameStatus.getTime() + "     Day: " + gameStatus.getDay() + "     Weather: " + gameStatus.getWeather() + "     XP: " + gameStatus.getXp());
+    }
+
     public GuiForm() {
-        initUiComponents();
+        init();
+        updateUi();
 
         sendActionButton.addActionListener(e -> {
             String action = actionTextField.getText();
             StoryTextArea.append(action + "\n");
             actionTextField.setText("");
-            String response = aiResponse.getResponse(action);
-            StoryTextArea.append(response + "\n");
-            updateTable();
+            gameStatus = gameStatusService.getNextGameStatus(gameStatus, action);
+            updateUi();
         });
     }
 
