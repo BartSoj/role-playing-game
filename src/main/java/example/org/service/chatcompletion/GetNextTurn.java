@@ -6,25 +6,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import java.util.List;
 
 public class GetNextTurn {
-    @JsonPropertyDescription("one sentence description of what can happen next in the game based on the current state and user input")
+    @JsonPropertyDescription("Description of this turn according to nextTurnDescription")
     @JsonProperty(required = true)
     public String description;
-    @JsonPropertyDescription("Time period of the day, should change every time")
+    @JsonPropertyDescription("Estimated number of hours the user action would take")
     @JsonProperty(required = true)
-    public String time;
-
-    @JsonPropertyDescription("Day number should increase from time to time")
+    public int hoursConsumed;
+    @JsonPropertyDescription("New experience points gained by the user, value dependent on user action")
     @JsonProperty(required = true)
-    public String day;
-
-    @JsonPropertyDescription("Weather condition should change every few rounds")
+    public int gainedExperiencePoints;
+    @JsonPropertyDescription("New hp points. Should change depending on user action")
     @JsonProperty(required = true)
-    public String weather;
-
-    @JsonPropertyDescription("Experience points, increases when user does something good")
-    @JsonProperty(required = true)
-    public String xp;
+    public int hp;
+    @JsonPropertyDescription("True if the user is engaged in combat. If all the enemies are defeated, this should be false")
+    public boolean engagedInCombat;
     @JsonPropertyDescription("Items in inventory")
     @JsonProperty(required = true)
     public List<String> inventory;
+
+    @JsonPropertyDescription("All the quests thah the player has to complete")
+    @JsonProperty(required = true)
+    public List<String> quests;
+
+    @JsonPropertyDescription("All the quests that the player has completed")
+    @JsonProperty(required = true)
+    public List<String> completedQuests;
 }
