@@ -8,6 +8,7 @@ import com.theokanning.openai.service.FunctionExecutor;
 import com.theokanning.openai.service.OpenAiService;
 import example.org.dto.GameStatus;
 import example.org.service.gamelogic.GameLogicService;
+import io.reactivex.Flowable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
@@ -49,9 +50,28 @@ public class ChatCompletionService {
         return new ChatMessage(ChatMessageRole.FUNCTION.value(), arguments, "get_game_status");
     }
 
-    public GameStatus getCompletion(GameStatus gameStatus) {
+    public Flowable<String> getFlowableDescription(GameStatus gameStatus) {
         List<ChatMessage> messages = convertToChatMessages(gameStatus.getMessages());
         messages.add(getFunctionMessage(gameStatus));
+
+        ChatCompletionRequest descriptionRequest = ChatCompletionRequest
+                .builder()
+                .model("gpt-3.5-turbo")
+                .messages(messages)
+                .n(1)
+                .logitBias(new HashMap<>())
+                .build();
+
+        Flowable<ChatCompletionChunk> flowable = service.streamChatCompletion(descriptionRequest);
+
+        return service.mapStreamToAccumulator(flowable)
+                .filter(accumulator -> accumulator.getMessageChunk().getContent() != null)
+                .map(accumulator -> accumulator.getMessageChunk().getContent());
+    }
+
+    public GameStatus getNewGameStatus(GameStatus gameStatus) {
+        List<ChatMessage> messages = convertToChatMessages(gameStatus.getMessages());
+        messages.add(messages.size() - 2, getFunctionMessage(gameStatus));
 
         FunctionExecutor functionExecutor = new FunctionExecutor(List.of(ChatFunction.builder()
                 .name("get_next_turn")
@@ -61,7 +81,7 @@ public class ChatCompletionService {
 
         ChatCompletionRequest completionRequest = ChatCompletionRequest
                 .builder()
-                .model("gpt-4")
+                .model("gpt-3.5-turbo")
                 .messages(messages)
                 .functions(functionExecutor.getFunctions())
                 .functionCall(ChatCompletionRequest.ChatCompletionRequestFunctionCall.of("get_next_turn"))
@@ -82,8 +102,8 @@ public class ChatCompletionService {
         if (responseMessage.getFunctionCall() == null) {
             throw new RuntimeException("No function call returned");
         }
-        ChatFunctionCall ResponseFunctionCall = responseMessage.getFunctionCall();
-        GameStatus newGameStatus = functionExecutor.execute(ResponseFunctionCall);
+        ChatFunctionCall responseMessageFunctionCall = responseMessage.getFunctionCall();
+        GameStatus newGameStatus = functionExecutor.execute(responseMessageFunctionCall);
         log.debug("GameStatus: {}", newGameStatus);
         return newGameStatus;
     }

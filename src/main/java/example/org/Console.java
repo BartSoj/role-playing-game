@@ -16,7 +16,8 @@ public class Console {
         String input = "";
         while (!"exit".equals(input)) {
             input = scanner.nextLine();
-            gameStatus = gameStatusService.getNextGameStatus(gameStatus, input);
+            gameStatus.getMessages().add(input);
+            gameStatus = gameStatusService.getNextGameStatus(gameStatus);
             System.out.println("RESPONSE: " + gameStatus.getMessages().get(gameStatus.getMessages().size() - 1));
             System.out.println("GAME STATUS: " + gameStatus);
         }

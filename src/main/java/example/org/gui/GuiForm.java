@@ -8,7 +8,10 @@ import example.org.service.gamelogic.GameLogicServiceImpl2;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GuiForm {
     private GameStatusService gameStatusService;
@@ -40,8 +43,48 @@ public class GuiForm {
     private JMenuItem gameModeImpl2MenuItem;
     private JMenuItem helpMenuItem;
 
+    private void getNextTurn() {
+        SwingWorker<Void, String> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() {
+                sendActionButton.setEnabled(false);
+                AtomicBoolean isFirst = new AtomicBoolean(true);
+                gameStatusService.getFlowableDescription(gameStatus)
+                        .doOnNext(descriptionChunk -> {
+                            if (isFirst.getAndSet(false)) {
+                                gameStatus.getMessages().add(descriptionChunk);
+                                publish(descriptionChunk);
+                            } else {
+                                String accumulatedDescription = gameStatus.getMessages().get(gameStatus.getMessages().size() - 1);
+                                gameStatus.getMessages().set(gameStatus.getMessages().size() - 1, accumulatedDescription + descriptionChunk);
+                                publish(descriptionChunk);
+                            }
+                        }).doOnComplete(() -> {
+                            publish("\n");
+                            gameStatus = gameStatusService.getNextGameStatus(gameStatus);
+                        })
+                        .blockingSubscribe();
+                return null;
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                for (String chunk : chunks) {
+                    storyTextArea.append(chunk);
+                }
+            }
+
+            @Override
+            protected void done() {
+                sendActionButton.setEnabled(true);
+                updateUiAfterMessage();
+            }
+        };
+
+        worker.execute();
+    }
+
     private void init() {
-//        gameModeMenu.text
         sendActionButton.setText("Send");
         storyTextArea.setEditable(false);
         storyTextArea.setLineWrap(true);
@@ -126,7 +169,7 @@ public class GuiForm {
 
     private void updateUi() {
         gameModeLabel.setText(gameStatus.getGameMode());
-        storyTextArea.setText(String.join("\n", gameStatus.getMessages()));
+        storyTextArea.setText(String.join("\n", gameStatus.getMessages()) + "\n");
         updateQuestsTable(gameStatus.getQuests());
         updateCompletedQuestsTable(gameStatus.getCompletedQuests());
         updateItemsTable(gameStatus.getInventory());
@@ -134,7 +177,6 @@ public class GuiForm {
     }
 
     private void updateUiAfterMessage() {
-        storyTextArea.append(gameStatus.getMessages().get(gameStatus.getMessages().size() - 1) + "\n");
         updateQuestsTable(gameStatus.getQuests());
         updateCompletedQuestsTable(gameStatus.getCompletedQuests());
         updateItemsTable(gameStatus.getInventory());
@@ -153,24 +195,35 @@ public class GuiForm {
             updateUi();
         });
         helpMenuItem.addActionListener(e -> {
-            JOptionPane.showMessageDialog(parent, "Help:\n" +
-                    "1. Enter action in text field\n" +
-                    "2. Press 'Send' button\n" +
-                    "3. Enjoy the game!\n" +
-                    "4. If you want to change game mode, press 'Game Mode' button in menu bar\n");
+            JOptionPane.showMessageDialog(parent, """
+                    Help:
+                    1. Enter action in text field
+                    2. Press 'Send' button
+                    3. Enjoy the game!
+                    4. If you want to change game mode, press 'Game Mode' button in menu bar
+                    """);
         });
     }
 
     private void sendActionButtonEvent() {
         String action = actionTextField.getText();
-        storyTextArea.append(action + "\n");
-        actionTextField.setText("");
-        gameStatus = gameStatusService.getNextGameStatus(gameStatus, action);
-        updateUiAfterMessage();
+        if (!"".equals(action) && sendActionButton.isEnabled()) {
+            storyTextArea.append(action + "\n");
+            actionTextField.setText("");
+            gameStatus.getMessages().add(action);
+            getNextTurn();
+        }
     }
 
     private void createSendActionButtonListener() {
         sendActionButton.addActionListener(e -> sendActionButtonEvent());
+        actionTextField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                    sendActionButtonEvent();
+                }
+            }
+        });
     }
 
     public GuiForm(JFrame parentFrame) {

@@ -49,9 +49,7 @@ public abstract class GameLogicService {
         List<String> completedQuests = gameStatus.getCompletedQuests();
         completedQuests.addAll(nextTurn.completedQuests);
         newGameStatus.setCompletedQuests(completedQuests);
-        List<String> messages = gameStatus.getMessages();
-        messages.add(nextTurn.description);
-        newGameStatus.setMessages(messages);
+        newGameStatus.setMessages(gameStatus.getMessages());
         return newGameStatus;
     }
 }

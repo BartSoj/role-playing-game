@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import java.util.List;
 
 public class GetNextTurn {
-    @JsonPropertyDescription("Description of this turn according to nextTurnDescription")
-    @JsonProperty(required = true)
-    public String description;
     @JsonPropertyDescription("Estimated number of hours the user action would take")
     @JsonProperty(required = true)
     public int hoursConsumed;
@@ -24,7 +21,7 @@ public class GetNextTurn {
     @JsonProperty(required = true)
     public List<String> inventory;
 
-    @JsonPropertyDescription("All the quests thah the player has to complete")
+    @JsonPropertyDescription("All the quests that the player has to complete")
     @JsonProperty(required = true)
     public List<String> quests;
 

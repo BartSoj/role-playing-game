@@ -3,6 +3,7 @@ package example.org.service;
 import example.org.dto.GameStatus;
 import example.org.service.chatcompletion.ChatCompletionService;
 import example.org.service.gamelogic.GameLogicService;
+import io.reactivex.Flowable;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,8 +21,11 @@ public class GameStatusService {
     }
 
 
-    public GameStatus getNextGameStatus(GameStatus gameStatus, String message) {
-        gameStatus.getMessages().add(message);
-        return completionService.getCompletion(gameStatus);
+    public Flowable<String> getFlowableDescription(GameStatus gameStatus) {
+        return completionService.getFlowableDescription(gameStatus);
+    }
+
+    public GameStatus getNextGameStatus(GameStatus gameStatus) {
+        return completionService.getNewGameStatus(gameStatus);
     }
 }
