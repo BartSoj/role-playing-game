@@ -38,6 +38,7 @@ public abstract class GameLogicService {
         if (xp > 1000) {
             newGameStatus.setXp(xp - 1000);
             newGameStatus.setLevel(gameStatus.getLevel() + 1);
+            newGameStatus.setHp(20);
         } else {
             newGameStatus.setXp(xp);
             newGameStatus.setLevel(gameStatus.getLevel());
