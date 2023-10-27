@@ -12,7 +12,14 @@ public class GameLogicServiceImpl2 extends GameLogicService {
             "\nThe player’s attack and the enemy’s counterattack should be placed in the same round" +
             "\nEvery user action should take a certain amount of hours" +
             "\nEvery enemy killed and progress made should give the user a certain amount of experience points" +
-            "\nAttack to the user should result in decrease in hp";
+            "\nEvery quest completed gives some positive amount of xp" +
+            "\nAttack to the user should result in decrease in hp" +
+            "\nIf user has 0hp dies and game is over and user lose" +
+            "\nOnce user completes all the quests, the game is over and the user wins" +
+            "\nOnce user reaches level 3 fight with the boss starts" +
+            "\nBoss fight should be against one strong enemy and it should be the hardest fight, precisly describe every attack" +
+            //"\nWith every killed enemy there is a chance to get random item from the list(Iron Sword,Iron Shield)"+
+            "\nWhen user has higher level enemies should be stronger";
 
     public GameStatus initGameStatus() {
         GameStatus gameStatus = new GameStatus();
@@ -26,7 +33,7 @@ public class GameLogicServiceImpl2 extends GameLogicService {
         gameStatus.setCombatMode(false);
         gameStatus.getInventory().add("Sword");
         gameStatus.getInventory().add("Shield");
-        gameStatus.setQuests(List.of("Slaughter 3 enemies"));
+        gameStatus.setQuests(List.of("Slaughter 3 enemies","Reach level 3","Kill the boss"));
         gameStatus.getMessages().add("You wake up in the middle of the battle field. You are surrounded by enemies. They can attack you at any moment.");
         return gameStatus;
     }
@@ -37,7 +44,7 @@ public class GameLogicServiceImpl2 extends GameLogicService {
 
     private String getTurnCircumstances(GameStatus gameStatus) {
         if (gameStatus.getQuests().isEmpty()) {
-            return "You have completed all the quests. You have won the game.";
+            return "Congratulations. You have completed all the quests. You have won the game.";
         }
         if (gameStatus.isCombatMode()) {
             return "Hostile forces are attacking the user. Precisely describe the enemy attack, what weapon or spell enemy used to attack and the number of hp point lost by the user. Do not allow user to avoid the attack. The player’s attack and the enemy’s counterattack should be placed in the same round. The combat ends only when enemies are killed";
