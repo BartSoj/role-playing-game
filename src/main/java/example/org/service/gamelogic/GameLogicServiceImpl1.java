@@ -7,20 +7,32 @@ import java.util.List;
 
 public class GameLogicServiceImpl1 extends GameLogicService {
 
+    private static final String GAME_NAME = "Battlefield";
+
     private final String SYSTEM_MESSAGE = "Please perform the function of a text adventure game, following the rules listed below:" +
             "\nStay in character as a text adventure game and respond to commands the way a text adventure game should." +
 //            "\nYour responses should be very short, just one sentence. Respond with just one sentence." +
             "\nThe player’s attack and the enemy’s counterattack should be placed in the same round" +
-            "\nEvery player action should take a certain amount of hours, 0 in case the action is short" +
-            "\nEvery enemy killed and progress made should give the player a certain amount of experience points" +
-            "\nAttack to the player should result in decrease in hp" +
-            "\nOnce player completes all the quests, the game is over and the player wins";
+            "\nEvery user action should take a certain amount of hours" +
+            "\nEvery enemy killed and progress made should give the user a certain amount of experience points" +
+            "\nEvery quest completed gives some positive amount of xp" +
+            "\nAttack to the user should result in decrease in hp" +
+            "\nIf user has 0hp dies and game is over and user lose" +
+            "\nOnce user completes all the quests, the game is over and the user wins" +
+            "\nOnce user reaches level 3 fight with the boss starts" +
+            "\nBoss fight should be against one strong enemy and it should be the hardest fight, precisly describe every attack" +
+            //"\nWith every killed enemy there is a chance to get random item from the list(Iron Sword,Iron Shield)"+
+            "\nWhen user has higher level enemies should be stronger";
+
+    public static String getGameName() {
+        return GAME_NAME;
+    }
 
     public GameStatus initGameStatus() {
         GameStatus gameStatus = new GameStatus();
-        gameStatus.setGameMode("Impl1");
+        gameStatus.setGameMode(GAME_NAME);
         gameStatus.setRound(1);
-        gameStatus.setTime(8);
+        gameStatus.setTime("Early morning");
         gameStatus.setDay(1);
         gameStatus.setXp(100);
         gameStatus.setLevel(1);
@@ -28,7 +40,7 @@ public class GameLogicServiceImpl1 extends GameLogicService {
         gameStatus.setCombatMode(false);
         gameStatus.getInventory().add("Sword");
         gameStatus.getInventory().add("Shield");
-        gameStatus.setQuests(List.of("Slaughter 3 enemies"));
+        gameStatus.setQuests(List.of("Slaughter 3 enemies","Reach level 3","Kill the boss"));
         gameStatus.getMessages().add("You wake up in the middle of the battle field. You are surrounded by enemies. They can attack you at any moment.");
         return gameStatus;
     }
@@ -38,8 +50,11 @@ public class GameLogicServiceImpl1 extends GameLogicService {
     }
 
     private String getTurnCircumstances(GameStatus gameStatus) {
+        if (gameStatus.getHp() <= 0) {
+            return "You have died. Game Over. You can not do any action.";
+        }
         if (gameStatus.getQuests().isEmpty()) {
-            return "You have completed all the quests. You have won the game.";
+            return "Congratulations. You have completed the quest. You have won the game.";
         }
         if (gameStatus.isCombatMode()) {
             return "Hostile forces are attacking the player. Precisely describe the enemy attack, what weapon or spell enemy used to attack and the number of hp point lost by the player. Do not allow player to avoid the attack. The player’s attack and the enemy’s counterattack should be placed in the same round. The combat ends only when enemies are killed";

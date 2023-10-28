@@ -13,7 +13,7 @@ import java.util.List;
 public class GameStatus {
     private String gameMode;
     private int round;
-    private int time;
+    private String time;
     private int day;
     private int xp;
     private int level;

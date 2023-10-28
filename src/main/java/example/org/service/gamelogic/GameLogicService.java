@@ -4,10 +4,15 @@ import example.org.dto.GameStatus;
 import example.org.service.chatcompletion.GetNextTurn;
 import example.org.service.chatcompletion.GetNextTurnRequest;
 
-import java.util.List;
-
 public abstract class GameLogicService {
+
+    public static final String GAME_NAME = "Default game name";
+
     public abstract GameStatus initGameStatus();
+
+    public static String getGameName() {
+        return GAME_NAME;
+    }
 
     public abstract String getSystemMessage();
 
@@ -25,15 +30,10 @@ public abstract class GameLogicService {
 
     public GameStatus updateGameStatus(GameStatus gameStatus, GetNextTurn nextTurn) {
         GameStatus newGameStatus = new GameStatus();
+        newGameStatus.setGameMode(gameStatus.getGameMode());
         newGameStatus.setRound(gameStatus.getRound() + 1);
-        int hour = gameStatus.getTime() + nextTurn.hoursConsumed;
-        if (hour > 24) {
-            newGameStatus.setTime(hour - 24);
-            newGameStatus.setDay(gameStatus.getDay() + 1);
-        } else {
-            newGameStatus.setTime(hour);
-            newGameStatus.setDay(gameStatus.getDay());
-        }
+        newGameStatus.setTime(nextTurn.timeOfDay);
+        newGameStatus.setDay(nextTurn.dayNumber);
         int xp = gameStatus.getXp() + nextTurn.gainedExperiencePoints;
         if (xp > 1000) {
             newGameStatus.setXp(xp - 1000);
@@ -46,11 +46,17 @@ public abstract class GameLogicService {
         newGameStatus.setHp(nextTurn.hp);
         newGameStatus.setCombatMode(nextTurn.engagedInCombat);
         newGameStatus.setInventory(nextTurn.inventory);
-        newGameStatus.setQuests(nextTurn.quests);
-        List<String> completedQuests = gameStatus.getCompletedQuests();
-        completedQuests.addAll(nextTurn.completedQuests);
-        newGameStatus.setCompletedQuests(completedQuests);
+        newGameStatus.setCompletedQuests(gameStatus.getCompletedQuests());
+        for (int i = 0; i < nextTurn.quests.size(); i++) {
+            if (nextTurn.questCompleted.get(i)) {
+                newGameStatus.getCompletedQuests().add(nextTurn.quests.get(i));
+            } else {
+                newGameStatus.getQuests().add(nextTurn.quests.get(i));
+            }
+        }
         newGameStatus.setMessages(gameStatus.getMessages());
+        System.out.println(nextTurn.quests);
+        System.out.println(nextTurn.questCompleted);
         return newGameStatus;
     }
 }
