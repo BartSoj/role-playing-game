@@ -63,8 +63,8 @@ public class GameLogicServiceImpl2 extends GameLogicService {
     }
 
     private String getTurnCircumstances(GameStatus gameStatus) {
-        if (gameStatus.getHp() <= 0) {
-            return "You have died. Game over. You can not do any action.";
+        if (gameStatus.getQuests().isEmpty()) {
+            return "Congratulations. You have completed all the quests. You have won the game.";
         }
         if (gameStatus.isCombatMode()) {
             return "Precisely describe the enemy attack, what weapon or spell enemy used to attack and the number of hp point lost by the user. Do not allow user to avoid the attack. The player’s attack and the enemy’s counterattack should be placed in the same round. If enemy is defeated or enemy or player has retreated, combat mode is false.";
