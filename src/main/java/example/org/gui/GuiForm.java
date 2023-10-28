@@ -37,6 +37,7 @@ public class GuiForm {
     private JLabel dayLabel;
     private JLabel levelLabel;
     private JLabel hpLabel;
+    private JScrollPane storyTextAreaScrollPane;
     private JMenuBar menuBar;
     private JMenu gameModeMenu;
     private JMenuItem gameModeImpl1MenuItem;
@@ -117,8 +118,8 @@ public class GuiForm {
         gameStatus = gameStatusService.getNewGameStatus();
         menuBar = new JMenuBar();
         gameModeMenu = new JMenu("Game Mode");
-        gameModeImpl1MenuItem = new JMenuItem("Impl1");
-        gameModeImpl2MenuItem = new JMenuItem("Impl2");
+        gameModeImpl1MenuItem = new JMenuItem(GameLogicServiceImpl1.getGameName());
+        gameModeImpl2MenuItem = new JMenuItem(GameLogicServiceImpl2.getGameName());
         gameModeMenu.add(gameModeImpl1MenuItem);
         gameModeMenu.add(gameModeImpl2MenuItem);
         menuBar.add(gameModeMenu);

@@ -3,6 +3,7 @@ package example.org.service.chatcompletion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.FunctionExecutor;
 import com.theokanning.openai.service.OpenAiService;
@@ -74,8 +75,8 @@ public class ChatCompletionService {
         messages.add(messages.size() - 2, getFunctionMessage(gameStatus));
 
         FunctionExecutor functionExecutor = new FunctionExecutor(List.of(ChatFunction.builder()
-                .name("get_next_turn")
-                .description("get the next turn of the game")
+                .name("get_last_turn_info")
+                .description("get the information about the last turn")
                 .executor(GetNextTurn.class, x -> gameLogicService.updateGameStatus(gameStatus, x))
                 .build()));
 
@@ -84,7 +85,7 @@ public class ChatCompletionService {
                 .model("gpt-3.5-turbo")
                 .messages(messages)
                 .functions(functionExecutor.getFunctions())
-                .functionCall(ChatCompletionRequest.ChatCompletionRequestFunctionCall.of("get_next_turn"))
+                .functionCall(ChatCompletionRequest.ChatCompletionRequestFunctionCall.of("get_last_turn_info"))
                 .n(1)
                 .logitBias(new HashMap<>())
                 .build();

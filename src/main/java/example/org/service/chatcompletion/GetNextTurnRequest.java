@@ -4,11 +4,11 @@ import java.util.List;
 
 public class GetNextTurnRequest {
     public String nextTurnDescription;
-    public int time;
+    public List<String> quests;
+    public String time;
     public int day;
     public int xp;
     public int level;
     public int hp;
-    public List<String> quests;
     public List<String> inventory;
 }
