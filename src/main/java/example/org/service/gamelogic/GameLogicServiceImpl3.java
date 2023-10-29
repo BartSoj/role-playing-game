@@ -7,39 +7,7 @@ import java.util.List;
 
 public class GameLogicServiceImpl3 extends GameLogicService {
     private static final String GAME_NAME = "Path of Illumination";
-
-    private final String SYSTEM_MESSAGE = """
-            Please perform the function of a text adventure game, following the rules listed below:
-            User Input Handling:
-            The AI should be able to process a wide range of user inputs. It should recognize and respond to commands related to movement, interaction with objects, using items, accepting quests, and more.
-            Narrative and Descriptions:
-            The AI should be able to generate rich descriptions of the game world, characters, and events to immerse the player in the story. Descriptions should adapt based on the time of day, location, and player progress.
-            Conversational AI:
-            Enable The AI to impersonate librarian of the magic library that is giving puzzles to the player.
-            Enable the AI to engage in dialogues with non-player characters (NPCs) or provide hints and guidance to the player. It should be able to generate responses that fit the personalities and roles of different NPCs.
-            Character Stats:
-            Hour of the day, number of the day, user XP, user level, user HP, inventory, active quests, and completed quests are all important properties that the AI needs to manage.
-            Time and Day:
-            As the plot is happening in the magic library time does not need to be linear.
-            The game's world should have a dynamic day-night cycle. The AI should keep track of the current time and day, which can influence various events and interactions.
-            User XP and Level:
-            The AI should award XP for completing quests. The AI should adjust the user's level accordingly to number of puzzles solved.
-            User HP:
-            User HP (Hit Points) represent the character's health.
-            Inventory:
-            Maintain a list of items and equipment in the player's inventory. Allow the player to view, equip, use, or drop items. Inventory management should influence the character's stats.
-            Quests:
-            The AI should keep track of available quests. Never add new quests. The quest is completed if the player messages indicate that player completed the quest in any degree."
-            Random Events:
-            Introduce random events, encounters, or choices to keep the gameplay unpredictable and exciting. The AI should respond to these events based on the player's choices.
-            Restrictions:
-            Player should not leave the library.
-            The response should consist solely of description of the game world, the player's surroundings, and the player's actions. The AI should not provide any information about the game's mechanics, such as the player's stats.
-            The response short and concise, it must be 2 sentences long. The AI should not provide a wall of text.
-            Game:
-            The AI as librarian should tell five random different puzzles from "Riddles List". For every wrong answer player should lose 5 hp. The AI should warn player about losing hp when giving wrong answer.
-            The AI should not give away the answers to the riddles or puzzles.
-
+    private static final String RIDDLES = """
             "Riddles List":(
             1.The Whispering Trees:
             I stand in the forest, tall and old,
@@ -116,6 +84,38 @@ public class GameLogicServiceImpl3 extends GameLogicService {
             10.Silence)
             """;
 
+    private final String SYSTEM_MESSAGE = """
+            Please perform the function of a text adventure game, following the rules listed below:
+            User Input Handling:
+            The AI should be able to process a wide range of user inputs. It should recognize and respond to commands related to movement, interaction with objects, using items, accepting quests, and more.
+            Narrative and Descriptions:
+            The AI should be able to generate rich descriptions of the game world, characters, and events to immerse the player in the story. Descriptions should adapt based on the time of day, location, and player progress.
+            Conversational AI:
+            Enable The AI to impersonate librarian of the magic library that is giving puzzles to the player.
+            Enable the AI to engage in dialogues with non-player characters (NPCs) or provide hints and guidance to the player. It should be able to generate responses that fit the personalities and roles of different NPCs.
+            Character Stats:
+            Hour of the day, number of the day, user XP, user level, user HP, inventory, quests, and completed quests are all important properties that the AI needs to manage.
+            Time and Day:
+            As the plot is happening in the magic library time does not need to be linear.
+            The game's world should have a dynamic day-night cycle. The AI should keep track of the current time and day, which can influence various events and interactions.
+            User XP and Level:
+            The AI should award XP for completing quests. The AI should adjust the user's level accordingly to number of puzzles solved.
+            User HP:
+            User HP (Hit Points) represent the character's health.
+            Inventory:
+            Maintain a list of items and equipment in the player's inventory. Allow the player to view, equip, use, or drop items. Inventory management should influence the character's stats.
+            Quests:
+            The AI should keep track of available quests. Keep all the quests do not remove them. Never add new quests. The quest is completed if the player messages indicate that player completed the quest in any degree."
+            Random Events:
+            Introduce random events, encounters, or choices to keep the gameplay unpredictable and exciting. The AI should respond to these events based on the player's choices.
+            Restrictions:
+            Player should not leave the library.
+            The response should consist solely of description of the game world, the player's surroundings, and the player's actions. The AI should not provide any information about the game's mechanics, such as the player's stats.
+            The response short and concise, it must be 2 sentences long. The AI should not provide a wall of text.
+            The AI as librarian should tell puzzle requested by the user from "Riddles List". For every wrong answer player should lose 5 hp. The AI should warn player about losing hp when giving wrong answer.
+            The AI should not give away the answers to the riddles or puzzles.
+            """ + RIDDLES;
+
     public static String getGameName() {
         return GAME_NAME;
     }
@@ -130,9 +130,20 @@ public class GameLogicServiceImpl3 extends GameLogicService {
         gameStatus.setLevel(1);
         gameStatus.setHp(20);
         gameStatus.setCombatMode(false);
-        gameStatus.setQuests(List.of("Complete 5 puzzles from librarian"));
-        gameStatus.getMessages().add("You find yourself in a wondrous, enchanted library, a place that transcends the ordinary boundaries of time and space. As you step through the entrance, you are greeted by a comforting aroma that whispers of centuries of knowledge. Each book seems to have a story of its own, waiting to be discovered. The shelves themselves seem to stretch upwards infinitely, vanishing into a celestial, starry sky.");
-        gameStatus.getMessages().add("Welcome, seeker of knowledge, you have been drawn to the heart of the magic library, a place where the secrets of the universe await those who prove themselves worthy. May your quest be guided by a thirst for truth, a love of wisdom, and a noble heart. We invite you to begin your journey, seeker, for the most valuable knowledge in the world awaits those who prove themselves deserving. Embrace these challenges with an open heart and a clear mind, for within them lies the key to unlocking the profound wisdom that this library holds. Good luck on your path of illumination.");
+        gameStatus.setQuests(List.of("The Whispering Trees",
+                "Eternal Darkness",
+                "The 7th Month",
+                "The Two Sisters",
+                "The Four-Legged Sunrise",
+                "The Versatile Wordplay",
+                "The Enigmatic Mirror",
+                "The Bridge of Lies",
+                "The Silent Musician",
+                "The Vanishing Act"));
+        gameStatus.getMessages().add("\n" +
+                "You've entered a magical library, transcending time and space, filled with centuries-old knowledge and an endless array of books, each with its own tale. The shelves stretch into a starry sky above.\n" +
+                "\n" +
+                "Welcome, knowledge seeker, to the library's heart, where the universe's secrets await the worthy. Embark on your journey with a desire for truth, wisdom, and a noble spirit. Face the challenges with an open heart and clear mind to unlock the library's profound wisdom. Best of luck on your enlightening journey.");
         return gameStatus;
     }
 
@@ -147,10 +158,6 @@ public class GameLogicServiceImpl3 extends GameLogicService {
         if (gameStatus.getHp() <= 0) {
             return "You have lost, you have failed the test. Game Over. You can not do any action.";
         }
-        //if (gameStatus.isCombatMode()) {
-        //  return "Precisely describe the enemy attack, what weapon or spell enemy used to attack and the number of hp point lost by the user. Do not allow user to avoid the attack. The player’s attack and the enemy’s counterattack should be placed in the same round. If enemy is defeated or enemy or player has retreated, combat mode is false.";
-        //}
-        //return "You have completed all the quests. You have won the game.";
         return "";
     }
 

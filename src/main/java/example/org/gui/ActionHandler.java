@@ -4,6 +4,7 @@ import example.org.service.GameStatusService;
 import example.org.service.gamelogic.GameLogicServiceImpl1;
 import example.org.service.gamelogic.GameLogicServiceImpl2;
 import example.org.service.gamelogic.GameLogicServiceImpl3;
+import example.org.service.gamelogic.GameLogicServiceImpl4;
 
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
@@ -79,6 +80,11 @@ public class ActionHandler {
         });
         gameGui.gameModeImpl3MenuItem.addActionListener(e -> {
             gameGui.gameStatusService = new GameStatusService(new GameLogicServiceImpl3());
+            gameGui.gameStatus = gameGui.gameStatusService.getNewGameStatus();
+            gameGui.updateUi();
+        });
+        gameGui.gameModeImpl4MenuItem.addActionListener(e -> {
+            gameGui.gameStatusService = new GameStatusService(new GameLogicServiceImpl4());
             gameGui.gameStatus = gameGui.gameStatusService.getNewGameStatus();
             gameGui.updateUi();
         });

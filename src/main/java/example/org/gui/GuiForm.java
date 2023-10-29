@@ -5,6 +5,7 @@ import example.org.dto.GameStatus;
 import example.org.service.gamelogic.GameLogicServiceImpl1;
 import example.org.service.gamelogic.GameLogicServiceImpl2;
 import example.org.service.gamelogic.GameLogicServiceImpl3;
+import example.org.service.gamelogic.GameLogicServiceImpl4;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,10 +45,11 @@ public class GuiForm {
     public JPanel actionTextFieldPanel;
     public JMenuBar menuBar;
     public JMenu gameModeMenu;
-    public JMenuItem gameModeImpl1MenuItem;
     public JMenuItem helpMenuItem;
+    public JMenuItem gameModeImpl1MenuItem;
     public JMenuItem gameModeImpl2MenuItem;
     public JMenuItem gameModeImpl3MenuItem;
+    public JMenuItem gameModeImpl4MenuItem;
 
     public GuiForm() {
         menuBar = new JMenuBar();
@@ -59,11 +61,13 @@ public class GuiForm {
         gameModeImpl1MenuItem = new JMenuItem(GameLogicServiceImpl1.getGameName());
         gameModeImpl2MenuItem = new JMenuItem(GameLogicServiceImpl2.getGameName());
         gameModeImpl3MenuItem = new JMenuItem(GameLogicServiceImpl3.getGameName());
+        gameModeImpl4MenuItem = new JMenuItem(GameLogicServiceImpl4.getGameName());
 
         // Add menu items to the "Game Mode" menu
         gameModeMenu.add(gameModeImpl2MenuItem);
         gameModeMenu.add(gameModeImpl3MenuItem);
         gameModeMenu.add(gameModeImpl1MenuItem);
+        gameModeMenu.add(gameModeImpl4MenuItem);
 
         // Create a menu item for displaying help information
         helpMenuItem = new JMenuItem("Help");
