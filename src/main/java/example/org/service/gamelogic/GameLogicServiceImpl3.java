@@ -1,7 +1,6 @@
 package example.org.service.gamelogic;
 
 import example.org.dto.GameStatus;
-import example.org.service.chatcompletion.GetNextTurn;
 import example.org.service.chatcompletion.GetNextTurnRequest;
 
 import java.util.List;
@@ -55,7 +54,7 @@ public class GameLogicServiceImpl3 extends GameLogicService {
             I don't have lungs, but I need air;
             I don't have a mouth, but water kills me.
             What am I?
-            
+                        
             3.The 7th Month:
             I am taken from a mine and shut up in a wooden case,
             from which I am never released,
@@ -153,6 +152,7 @@ public class GameLogicServiceImpl3 extends GameLogicService {
         //  return "Precisely describe the enemy attack, what weapon or spell enemy used to attack and the number of hp point lost by the user. Do not allow user to avoid the attack. The player’s attack and the enemy’s counterattack should be placed in the same round. If enemy is defeated or enemy or player has retreated, combat mode is false.";
         //}
         //return "You have completed all the quests. You have won the game.";
+        return "";
     }
 
     @Override

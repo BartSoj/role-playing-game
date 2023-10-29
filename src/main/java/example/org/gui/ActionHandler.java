@@ -3,6 +3,7 @@ package example.org.gui;
 import example.org.service.GameStatusService;
 import example.org.service.gamelogic.GameLogicServiceImpl1;
 import example.org.service.gamelogic.GameLogicServiceImpl2;
+import example.org.service.gamelogic.GameLogicServiceImpl3;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
@@ -15,7 +16,7 @@ public class ActionHandler {
         SwingWorker<Void, String> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
-                gameGui.sendActionButton.setEnabled(false);
+                gameGui.sendDisabled();
                 AtomicBoolean isFirst = new AtomicBoolean(true);
                 gameGui.gameStatusService.getFlowableDescription(gameGui.gameStatus)
                         .doOnNext(descriptionChunk -> {
@@ -44,7 +45,7 @@ public class ActionHandler {
 
             @Override
             protected void done() {
-                gameGui.sendActionButton.setEnabled(true);
+                gameGui.sendEnabled();
                 gameGui.updateUiAfterMessage();
             }
         };
@@ -71,6 +72,11 @@ public class ActionHandler {
         });
         gameGui.gameModeImpl2MenuItem.addActionListener(e -> {
             gameGui.gameStatusService = new GameStatusService(new GameLogicServiceImpl2());
+            gameGui.gameStatus = gameGui.gameStatusService.getNewGameStatus();
+            gameGui.updateUi();
+        });
+        gameGui.gameModeImpl3MenuItem.addActionListener(e -> {
+            gameGui.gameStatusService = new GameStatusService(new GameLogicServiceImpl3());
             gameGui.gameStatus = gameGui.gameStatusService.getNewGameStatus();
             gameGui.updateUi();
         });

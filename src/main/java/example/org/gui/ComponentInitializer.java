@@ -5,6 +5,7 @@ import example.org.service.gamelogic.GameLogicServiceImpl1;
 
 import javax.imageio.ImageIO;
 import javax.swing.border.BevelBorder;
+import javax.swing.plaf.ScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -48,6 +49,8 @@ public class ComponentInitializer {
     }
 
     private void initStoryTextArea(GameGui gameGui) {
+        gameGui.storyTextAreaScrollPane.getVerticalScrollBar().setUI(new ScrollBarUI() {
+        });
         gameGui.storyTextAreaScrollPane.setOpaque(false);
         gameGui.storyTextAreaScrollPane.getViewport().setOpaque(false);
         gameGui.storyTextAreaScrollPane.setBorder(null);

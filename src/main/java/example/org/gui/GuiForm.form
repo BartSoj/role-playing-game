@@ -216,8 +216,10 @@
             </constraints>
             <properties>
               <focusable value="false"/>
+              <horizontalScrollBarPolicy value="30"/>
               <opaque value="false"/>
               <requestFocusEnabled value="false"/>
+              <verticalScrollBarPolicy value="20"/>
             </properties>
             <border type="none"/>
             <children>
@@ -310,6 +312,7 @@
                   <margin top="0" left="0" bottom="0" right="0"/>
                   <multiClickThreshhold value="0"/>
                   <opaque value="false"/>
+                  <selected value="false"/>
                   <text value=""/>
                 </properties>
               </component>
