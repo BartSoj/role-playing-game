@@ -7,10 +7,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
+
+    /**
+     * The main entry point for the application.
+     * It initializes the GUI form and launches the Swing application.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::buildGuiForm);
     }
 
+    /**
+     * Builds and displays the main GUI form for the game.
+     */
     public static void buildGuiForm() {
         JFrame frame = new JFrame("QuestVerse: An AI Adventure");
         GuiForm gameGui = new GameGui(frame);

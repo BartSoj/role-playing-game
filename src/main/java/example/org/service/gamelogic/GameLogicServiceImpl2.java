@@ -7,7 +7,6 @@ import example.org.service.chatcompletion.GetNextTurnRequest;
 import java.util.List;
 
 public class GameLogicServiceImpl2 extends GameLogicService {
-
     private static final String GAME_NAME = "Realm of Eldoria";
 
     private final String SYSTEM_MESSAGE = """

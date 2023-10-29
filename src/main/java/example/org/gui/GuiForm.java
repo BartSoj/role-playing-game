@@ -61,9 +61,9 @@ public class GuiForm {
         gameModeImpl3MenuItem = new JMenuItem(GameLogicServiceImpl3.getGameName());
 
         // Add menu items to the "Game Mode" menu
-        gameModeMenu.add(gameModeImpl1MenuItem);
         gameModeMenu.add(gameModeImpl2MenuItem);
         gameModeMenu.add(gameModeImpl3MenuItem);
+        gameModeMenu.add(gameModeImpl1MenuItem);
 
         // Create a menu item for displaying help information
         helpMenuItem = new JMenuItem("Help");
@@ -80,7 +80,7 @@ public class GuiForm {
 
         public BackgroundPanel() {
             super();
-            setOpaque(false); // Make the JTextArea transparent
+            setOpaque(false);
         }
 
         public void setBackgroundImage(BufferedImage image) {

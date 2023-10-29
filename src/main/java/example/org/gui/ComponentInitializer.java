@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ComponentInitializer {
-
     private void setIcon(GameGui gameGui) {
         // Set the icon
         try {

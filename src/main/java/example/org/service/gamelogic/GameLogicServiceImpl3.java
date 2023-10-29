@@ -6,7 +6,6 @@ import example.org.service.chatcompletion.GetNextTurnRequest;
 import java.util.List;
 
 public class GameLogicServiceImpl3 extends GameLogicService {
-
     private static final String GAME_NAME = "Path of Illumination";
 
     private final String SYSTEM_MESSAGE = """

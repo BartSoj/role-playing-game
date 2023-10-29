@@ -6,7 +6,6 @@ import example.org.service.chatcompletion.GetNextTurnRequest;
 import java.util.List;
 
 public class GameLogicServiceImpl1 extends GameLogicService {
-
     private static final String GAME_NAME = "Battlefield";
 
     private final String SYSTEM_MESSAGE = "Please perform the function of a text adventure game, following the rules listed below:" +

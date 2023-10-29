@@ -8,10 +8,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class GameLogicService {
 
+    /**
+     * Initializes and returns a new GameStatus instance representing the game's initial state.
+     *
+     * @return A GameStatus instance representing the initial game state.
+     */
     public abstract GameStatus initGameStatus();
 
+    /**
+     * Retrieves the system message for the game.
+     *
+     * @return The system message used in the game.
+     */
     public abstract String getSystemMessage();
 
+    /**
+     * Converts a GameStatus object into a GetNextTurnRequest for interaction with the chat model.
+     *
+     * @param gameStatus The GameStatus to convert into a request.
+     * @return The GetNextTurnRequest based on the provided GameStatus.
+     */
     public GetNextTurnRequest convertToRequest(GameStatus gameStatus) {
         GetNextTurnRequest request = new GetNextTurnRequest();
         request.time = gameStatus.getTime();
@@ -24,6 +40,13 @@ public abstract class GameLogicService {
         return request;
     }
 
+    /**
+     * Updates the game status based on the information from a GetNextTurn response.
+     *
+     * @param gameStatus The current GameStatus.
+     * @param nextTurn   The GetNextTurn response containing updates.
+     * @return The updated GameStatus after processing the next turn.
+     */
     public GameStatus updateGameStatus(GameStatus gameStatus, GetNextTurn nextTurn) {
         GameStatus newGameStatus = new GameStatus();
         newGameStatus.setGameMode(gameStatus.getGameMode());
