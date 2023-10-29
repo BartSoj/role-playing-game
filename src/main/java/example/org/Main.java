@@ -18,8 +18,8 @@ public class Main {
         frame.setContentPane(gameGui.panelMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
-        frame.setMinimumSize(new Dimension(1200, 800));
-        frame.setMaximumSize(new Dimension(1200, 800));
+        frame.setMinimumSize(new Dimension(800, 500));
+        frame.setMaximumSize(new Dimension(2400, 1600));
         frame.setVisible(true);
     }
 }

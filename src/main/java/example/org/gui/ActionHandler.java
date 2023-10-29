@@ -6,6 +6,8 @@ import example.org.service.gamelogic.GameLogicServiceImpl2;
 import example.org.service.gamelogic.GameLogicServiceImpl3;
 
 import javax.swing.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -85,11 +87,30 @@ public class ActionHandler {
 
     }
 
+    private void createActionFieldFocusListener(GameGui gameGui) {
+        gameGui.actionTextField.addFocusListener(new FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (gameGui.actionTextField.getText().equals("Enter action here")) {
+                    gameGui.actionTextFieldActive();
+                }
+                super.focusGained(e);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (gameGui.actionTextField.getText().isEmpty()) {
+                    gameGui.actionTextFieldDefault();
+                }
+                super.focusLost(e);
+            }
+        });
+    }
+
     private void sendActionButtonEvent(GameGui gameGui) {
         String action = gameGui.actionTextField.getText();
-        if (!"".equals(action) && gameGui.sendActionButton.isEnabled()) {
+        if (!"".equals(action) && !"Enter action here".equals(action) && gameGui.sendActionButton.isEnabled()) {
             gameGui.storyTextArea.append(action + "\n");
-            gameGui.actionTextField.setText("");
+            gameGui.actionTextFieldActive();
             gameGui.gameStatus.getMessages().add(action);
             getNextTurn(gameGui);
         }
@@ -108,6 +129,7 @@ public class ActionHandler {
 
     public void createListeners(GameGui gameGui) {
         createMenuListener(gameGui);
+        createActionFieldFocusListener(gameGui);
         createSendActionButtonListener(gameGui);
     }
 }

@@ -98,9 +98,20 @@ public class GameGui extends GuiForm {
         sendActionButton.setText("Wait...");
     }
 
+    public void actionTextFieldActive() {
+        actionTextField.setForeground(Color.BLACK);
+        actionTextField.setText("");
+    }
+
+    public void actionTextFieldDefault() {
+        actionTextField.setForeground(Color.DARK_GRAY);
+        actionTextField.setText("Enter action here");
+    }
+
     public void updateUi() {
         gameModeLabel.setText("Game Mode: " + gameStatus.getGameMode());
         storyTextArea.setText(String.join("\n", gameStatus.getMessages()) + "\n");
+        actionTextFieldDefault();
         updateQuestsTable(gameStatus.getQuests());
         updateCompletedQuestsTable(gameStatus.getCompletedQuests());
         updateItemsTable(gameStatus.getInventory());

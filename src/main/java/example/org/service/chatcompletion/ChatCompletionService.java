@@ -3,7 +3,6 @@ package example.org.service.chatcompletion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.theokanning.openai.completion.chat.*;
 import com.theokanning.openai.service.FunctionExecutor;
 import com.theokanning.openai.service.OpenAiService;
@@ -89,15 +88,6 @@ public class ChatCompletionService {
                 .n(1)
                 .logitBias(new HashMap<>())
                 .build();
-
-        // for debugging
-//        ObjectMapper mapper = OpenAiService.defaultObjectMapper();
-//        mapper = mapper.enable(SerializationFeature.INDENT_OUTPUT);
-//        try {
-//            System.out.println(mapper.writeValueAsString(completionRequest));
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
 
         ChatMessage responseMessage = service.createChatCompletion(completionRequest).getChoices().get(0).getMessage();
         if (responseMessage.getFunctionCall() == null) {

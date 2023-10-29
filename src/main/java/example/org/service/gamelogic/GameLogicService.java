@@ -3,16 +3,12 @@ package example.org.service.gamelogic;
 import example.org.dto.GameStatus;
 import example.org.service.chatcompletion.GetNextTurn;
 import example.org.service.chatcompletion.GetNextTurnRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class GameLogicService {
 
-    public static final String GAME_NAME = "Default game name";
-
     public abstract GameStatus initGameStatus();
-
-    public static String getGameName() {
-        return GAME_NAME;
-    }
 
     public abstract String getSystemMessage();
 
@@ -55,8 +51,6 @@ public abstract class GameLogicService {
             }
         }
         newGameStatus.setMessages(gameStatus.getMessages());
-        System.out.println(nextTurn.quests);
-        System.out.println(nextTurn.questCompleted);
         return newGameStatus;
     }
 }
