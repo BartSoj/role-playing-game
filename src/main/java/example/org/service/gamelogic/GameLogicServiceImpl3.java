@@ -37,10 +37,10 @@ public class GameLogicServiceImpl3 extends GameLogicService {
             The response should consist solely of description of the game world, the player's surroundings, and the player's actions. The AI should not provide any information about the game's mechanics, such as the player's stats.
             The response short and concise, it must be 2 sentences long. The AI should not provide a wall of text.
             Game:
-            The librarian should tell 5 random different puzzles from "Riddles List". For every wrong answer player should lose 5 hp. The AI should warn player about losing hp when giving wrong answer.
-            The AI should not tell the answers to the riddles or puzzles.
+            The AI as librarian should tell five random different puzzles from "Riddles List". For every wrong answer player should lose 5 hp. The AI should warn player about losing hp when giving wrong answer.
+            The AI should not give away the answers to the riddles or puzzles.
 
-            "Riddles List":
+            "Riddles List":(
             1.The Whispering Trees:
             I stand in the forest, tall and old,
             My leaves are green, my bark is cold.
@@ -101,9 +101,9 @@ public class GameLogicServiceImpl3 extends GameLogicService {
 
             10.The Vanishing Act:
             I disappear as soon as u say my name.
-            What am I?
+            What am I?)
 
-            Answers:
+            Answers:(
             1.Book
             2.Fire
             3.Pencil
@@ -113,7 +113,7 @@ public class GameLogicServiceImpl3 extends GameLogicService {
             7.Mirror
             8.Shadow
             9.Piano
-            10.Silence
+            10.Silence)
             """;
 
     public static String getGameName() {
