@@ -1,7 +1,7 @@
 package example.org.gui;
 
 import example.org.service.GameStatusService;
-import example.org.service.gamelogic.GameLogicServiceImpl1;
+import example.org.service.gamelogic.GameLogicServiceImpl2;
 
 import javax.imageio.ImageIO;
 import javax.swing.border.BevelBorder;
@@ -26,7 +26,7 @@ public class ComponentInitializer {
     }
 
     private void initGameStatus(GameGui gameGui) {
-        gameGui.gameStatusService = new GameStatusService(new GameLogicServiceImpl1());
+        gameGui.gameStatusService = new GameStatusService(new GameLogicServiceImpl2());
         gameGui.gameStatus = gameGui.gameStatusService.getNewGameStatus();
     }
 

@@ -8,6 +8,7 @@ import com.theokanning.openai.service.FunctionExecutor;
 import com.theokanning.openai.service.OpenAiService;
 import example.org.dto.GameStatus;
 import example.org.service.gamelogic.GameLogicService;
+import example.org.utils.OpenAiConfig;
 import io.reactivex.Flowable;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +28,7 @@ public class ChatCompletionService {
      * @param gameLogicService An instance of the GameLogicService for game logic operations.
      */
     public ChatCompletionService(GameLogicService gameLogicService) {
-        String token = System.getenv("OPENAI_API_KEY");
+        String token = OpenAiConfig.getApiKey();
         service = new OpenAiService(token, Duration.ofSeconds(30));
         this.gameLogicService = gameLogicService;
     }
